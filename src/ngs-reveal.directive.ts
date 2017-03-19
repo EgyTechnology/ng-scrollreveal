@@ -1,4 +1,4 @@
-import { Directive, HostBinding, OnInit, ElementRef, Input } from '@angular/core';
+import { Directive, HostBinding, OnInit, ElementRef, Input, AfterViewInit } from '@angular/core';
 import { NgsRevealConfig } from './ngs-reveal-config';
 import { NgsRevealService } from './ngs-reveal.service';
 import { AbstractNgsRevealDirective } from './ngs-reveal-common';
@@ -9,7 +9,7 @@ import { AbstractNgsRevealDirective } from './ngs-reveal-common';
 @Directive({
     selector: '[ngsReveal]'
 })
-export class NgsRevealDirective extends AbstractNgsRevealDirective implements OnInit {
+export class NgsRevealDirective extends AbstractNgsRevealDirective implements OnInit, AfterViewInit {
 
     @HostBinding('style.visibility')
     visibility = 'hidden';
@@ -27,6 +27,10 @@ export class NgsRevealDirective extends AbstractNgsRevealDirective implements On
     }
 
     ngOnInit() {
+        this.ngsRevealService.reveal(this.elementRef, this.config);
+    }
+
+    ngAfterViewInit() {
         this.ngsRevealService.reveal(this.elementRef, this.config);
     }
 }
